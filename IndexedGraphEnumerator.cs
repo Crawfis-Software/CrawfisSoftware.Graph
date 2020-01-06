@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-using OhioState.Collections;
+using CrawfisSoftware.Collections;
 
-namespace OhioState.Collections.Graph
+namespace CrawfisSoftware.Collections.Graph
 {
     /// <summary>
     /// Provides several iterators for an index-based graph that can be used to enumerate the graph's nodes
@@ -13,7 +13,7 @@ namespace OhioState.Collections.Graph
     /// <typeparam name="E">The type of the edge labels in the corresponding graph.</typeparam>
     /// <seealso cref="IndexedGraphEdgeEnumerator{N, E}"/>
     /// <seealso cref="GraphEnumeratorBase"/>
-    /// <seealso cref="OhioState.Collections.Graph"/>
+    /// <seealso cref="CrawfisSoftware.Collections.Graph"/>
     public class IndexedGraphEnumerator<N, E> : Graph.GraphEnumeratorBase
     {
         #region Constructors

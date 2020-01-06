@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OhioState.Collections.Graph
+namespace CrawfisSoftware.Collections.Graph
 {
     /// <summary>
     /// Provides a common interface to compare edge (or path) costs in a graph

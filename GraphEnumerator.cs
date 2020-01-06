@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using OhioState.Collections;
+using CrawfisSoftware.Collections;
 
-namespace OhioState.Collections.Graph
+namespace CrawfisSoftware.Collections.Graph
 {
     /// <summary>
     /// Provides several iterators for a graph that can be used to enumerate the graph's nodes

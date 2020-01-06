@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Graph")]
-[assembly: AssemblyDescription("Generic Graph Container")]
+[assembly: AssemblyDescription("Concrete Generic Graph Container")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Ohio State University (OSU)")]
+[assembly: AssemblyCompany("Crawfis Software")]
 [assembly: AssemblyProduct("Graph")]
-[assembly: AssemblyCopyright("Copyright © OSU 2007")]
+[assembly: AssemblyCopyright("Copyright © 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

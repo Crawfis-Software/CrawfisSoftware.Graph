@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace OhioState.Collections.Graph
+namespace CrawfisSoftware.Collections.Graph
 {
     /// <summary>
     /// A concrete implementation of the interface <typeparamref name="IIndexedEdgeCostComparer{E}"/>.

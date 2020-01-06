@@ -1,6 +1,6 @@
 using System;
 
-namespace OhioState.Collections.Graph
+namespace CrawfisSoftware.Collections.Graph
 {
     /// <summary>
     /// Specifies the order in which visited nodes or edges should be output.

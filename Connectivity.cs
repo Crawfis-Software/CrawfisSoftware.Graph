@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-using OhioState.Collections.Graph;
+using CrawfisSoftware.Collections.Graph;
 
-namespace OhioState.Collections.Graph
+namespace CrawfisSoftware.Collections.Graph
 {
     /// <summary>
     /// Provides a scoped location to place static methods that take

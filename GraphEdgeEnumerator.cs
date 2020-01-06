@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OhioState.Collections.Graph
+namespace CrawfisSoftware.Collections.Graph
 {
     /// <summary>
     /// An enumerator to walk the edges of a <typeparamref name="IGraph{N,E}"/>.

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OhioState.Collections.Graph
+namespace CrawfisSoftware.Collections.Graph
 {
     /// <summary>
     /// Static methods that determine paths from a graph.

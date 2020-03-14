@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace CrawfisSoftware.Collections.Graph
 {
@@ -30,7 +28,7 @@ namespace CrawfisSoftware.Collections.Graph
         {
             E costX = x.Value;
             E costY = y.Value;
-            int state =  Comparer<E>.Default.Compare(costX, costY);
+            int state = Comparer<E>.Default.Compare(costX, costY);
             return state;
         }
         #endregion

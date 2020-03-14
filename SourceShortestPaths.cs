@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace CrawfisSoftware.Collections.Graph
 {
@@ -58,7 +56,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// the cost for a given edge.</param>
         /// <returns>An enumeration of the path from the starting node to the target node.</returns>
         /// <seealso cref="IIndexedEdgeCostComparer{E}"/>
-        private void FindPaths(IIndexedGraph<N, E> graph, 
+        private void FindPaths(IIndexedGraph<N, E> graph,
             IIndexedEdgeCostComparer<E> costDelegate)
         {
             HeapAdaptor<IIndexedEdge<E>> heap = new HeapAdaptor<IIndexedEdge<E>>();

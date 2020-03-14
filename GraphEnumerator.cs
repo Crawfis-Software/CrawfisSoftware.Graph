@@ -1,8 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
-
-using CrawfisSoftware.Collections;
 
 namespace CrawfisSoftware.Collections.Graph
 {
@@ -109,14 +105,14 @@ namespace CrawfisSoftware.Collections.Graph
             activeList.Clear();
         }
 
-        private IEnumerable<N> TraverseFromNode( N startingNode )
+        private IEnumerable<N> TraverseFromNode(N startingNode)
         {
             if (this.TraversalOrder == TraversalOrder.PreOrder)
                 return TraverseComponent(startingNode);
             else
                 return TraverseComponentRecursively(startingNode);
         }
-        private IEnumerable<N> TraverseComponentRecursively( N startingNode )
+        private IEnumerable<N> TraverseComponentRecursively(N startingNode)
         {
             if (!visited.Contains(startingNode))
             {
@@ -132,7 +128,7 @@ namespace CrawfisSoftware.Collections.Graph
                 yield return startingNode;
             }
         }
-        private IEnumerable<N> TraverseComponent( N startingNode )
+        private IEnumerable<N> TraverseComponent(N startingNode)
         {
             activeList.Put(startingNode);
             while (activeList.Count > 0)

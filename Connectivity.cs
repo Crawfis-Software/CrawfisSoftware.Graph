@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-
-using CrawfisSoftware.Collections.Graph;
 
 namespace CrawfisSoftware.Collections.Graph
 {
@@ -32,7 +29,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// <param name="MaxNodes">For very large (and possibly infinite) graphs, the MaxNodes
         /// parameter provides a guard to ensure the algorithm is bounded.</param>
         /// <returns>The number of connected components in the graph.</returns>
-        public static int NumberOfComponents( IGraph<N, E> graph, int MaxNodes )
+        public static int NumberOfComponents(IGraph<N, E> graph, int MaxNodes)
         {
             IList<IList<N>> components = Components(graph, MaxNodes);
             return components.Count;
@@ -86,7 +83,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// maximum number of nodes to enumerate is exceeded. Since a graph can be infinite in
         /// size, this guards against passing an infinite graph (e.g., set of all whole numbers)
         /// into the routine.</exception>
-        public static int NumberOfComponents( IIndexedGraph<N, E> graph, int MaxNodes )
+        public static int NumberOfComponents(IIndexedGraph<N, E> graph, int MaxNodes)
         {
             IList<IList<int>> components = Components(graph, MaxNodes);
             return components.Count;
@@ -105,7 +102,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// maximum number of nodes to enumerate is exceeded. Since a graph can be infinite in
         /// size, this guards against passing an infinite graph (e.g., set of all whole numbers)
         /// into the routine.</exception>
-        public static IEnumerable<IEnumerable<int>> ConnectedComponents( IIndexedGraph<N, E> graph, int MaxNodes )
+        public static IEnumerable<IEnumerable<int>> ConnectedComponents(IIndexedGraph<N, E> graph, int MaxNodes)
         {
             IList<IList<int>> components = Components(graph, MaxNodes);
             foreach (IList<int> component in components)

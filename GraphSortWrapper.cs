@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CrawfisSoftware.Collections.Graph
 {
@@ -16,7 +14,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// Constructor
         /// </summary>
         /// <param name="graph">The graph that will be wrapped into a sorted graph.</param>
-        GraphSortWrapper( IGraph<N, E> graph )
+        GraphSortWrapper(IGraph<N, E> graph)
         {
             _graph = graph;
             _topologicalSort = GraphQuery<N, E>.GetTopologicalSort(graph);

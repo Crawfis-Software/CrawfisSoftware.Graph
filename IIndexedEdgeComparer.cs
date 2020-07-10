@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace CrawfisSoftware.Collections.Graph
@@ -18,6 +17,6 @@ namespace CrawfisSoftware.Collections.Graph
         /// include this edge as a minimum edge in the minimum path tree.
         /// </summary>
         /// <param name="edge">The edge being added to the minimum path tree.</param>
-        void UpdateCost( IIndexedEdge<E> edge );
+        void UpdateCost(IIndexedEdge<E> edge);
     }
 }

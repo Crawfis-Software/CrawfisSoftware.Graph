@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CrawfisSoftware.Collections.Graph
 {
@@ -10,7 +8,7 @@ namespace CrawfisSoftware.Collections.Graph
     /// <typeparam name="E">The type of the edge labels in the corresponding graph.</typeparam>
     /// <param name="edge">The edge to compute the cost if added to the path.</param>
     /// <returns>A <c>float</c> as the edge cost.</returns>
-    public delegate float EdgeCostDelegate<E>( IIndexedEdge<E> edge );
+    public delegate float EdgeCostDelegate<E>(IIndexedEdge<E> edge);
 
     /// <summary>
     /// A concrete implementation of the interface <typeparamref name="IIndexedEdgeCostComparer{E}"/>.
@@ -81,7 +79,7 @@ namespace CrawfisSoftware.Collections.Graph
         {
             float costX = GetPathCost(x);
             float costY = GetPathCost(y);
-            int state =  Comparer<float>.Default.Compare(costX, costY);
+            int state = Comparer<float>.Default.Compare(costX, costY);
             return state;
         }
         #endregion

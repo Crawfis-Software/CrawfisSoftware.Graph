@@ -1,5 +1,3 @@
-using System;
-
 namespace CrawfisSoftware.Collections.Graph
 {
     /// <summary>
@@ -7,7 +5,8 @@ namespace CrawfisSoftware.Collections.Graph
     /// </summary>
     /// <remarks>A <paramref name="TraversalOrder"/> of <paramref name="PostOrder"/> 
     /// requires a recursive and depth-first (Stack-based) traversal.</remarks>
-    public enum TraversalOrder {
+    public enum TraversalOrder
+    {
         /// <summary>
         /// The nodes are output (possibly) before their children have been processed.
         /// </summary>
@@ -16,7 +15,8 @@ namespace CrawfisSoftware.Collections.Graph
         /// The nodes (or edges) are output once all of their children have been 
         /// processed (unless their are cycles).
         /// </summary>
-        PostOrder };
+        PostOrder
+    };
 
     /// <summary>
     /// An abstract base class for the graph enumeration classes.

@@ -3,16 +3,22 @@
 namespace CrawfisSoftware.Collections.Graph
 {
     /// <summary>
-    /// Calculates the shortest paths for all reachable nodes in a graph
-    /// from a specified initial starting node.
+    /// Calculates all of the paths from a given node to all reachable nodes.
     /// </summary>
-    /// <typeparam name="N">The type of the node labels in the corresponding graph.</typeparam>
-    /// <typeparam name="E">The type of the edge labels in the corresponding graph.</typeparam>
-    /// <param name="costDelegate">A function used to retrieve or calculate
-    /// the cost for a given edge.</param>
-    /// <remarks>Implements Dijkstra's algorithm.</remarks>
+    /// <typeparam name="N">The graph node label type.</typeparam>
+    /// <typeparam name="E">The edge label type.</typeparam>
+    /// <remarks>The paths can be queried by passing in a target node from the source.</remarks>
     public class SourceShortestPaths<N, E>
     {
+        /// <summary>
+        /// Calculates the shortest paths for all reachable nodes in a graph
+        /// from a specified initial starting node.
+        /// </summary>
+        /// <param name="graph">The indexed graph used for the search.</param>
+        /// <param name="startingNode">The source node index of the resulting shortest paths.</param>
+        /// <param name="costDelegate">A function used to retrieve or calculate
+        /// the cost for a given edge.</param>
+        /// <remarks>Implements Dijkstra's algorithm.</remarks>
         public SourceShortestPaths(IIndexedGraph<N, E> graph, int startingNode, EdgeCostDelegate<E> costDelegate)
         {
             this.startingNode = startingNode;
@@ -21,6 +27,11 @@ namespace CrawfisSoftware.Collections.Graph
                 costComparer.EdgeCostDelegate = costDelegate;
             FindPaths(graph, costComparer);
         }
+        /// <summary>
+        /// Actual method that returns an enumeration of the path edges.
+        /// </summary>
+        /// <param name="targetNode"></param>
+        /// <returns>An IEnumerable of IIndexedEdge's.</returns>
         public IEnumerable<IIndexedEdge<E>> GetPath(int targetNode)
         {
             // If the target node does not have a parent, then this node

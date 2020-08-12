@@ -20,7 +20,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// <remarks>The algorithm uses a topological sort (see <seealso cref="TraversalOrder.PostOrder"/>) to enumerate
         /// the nodes in the graph. If a node has an out-going edge to another node that has not
         /// already been enumerated, then a cycle exists and the routine returns false.
-        /// <para>Note that the routine will return early if a cycle is found,</para></remarks>
+        /// Note that the routine will return early if a cycle is found.</remarks>
         public static bool IsAcyclic(IIndexedGraph<N, E> graph)
         {
             bool acyclic = true;
@@ -57,7 +57,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// </summary>
         /// <param name="graph">An index-based graph that the test will be performed on.</param>
         /// <returns>True if there are no cycles (the graph is acyclic). False otherwise.</returns>
-        /// <para>Note that the routine will return early if a cycle is found,</para></remarks>
+        /// <remarks>Note that the routine will return early if a cycle is found.</remarks>
         public static bool IsAcyclicUndirected(IIndexedGraph<N, E> graph)
         {
             bool acyclic = true;

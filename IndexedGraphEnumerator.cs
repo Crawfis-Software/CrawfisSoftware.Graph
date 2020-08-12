@@ -69,6 +69,9 @@ namespace CrawfisSoftware.Collections.Graph
             }
         }
 
+        /// <summary>
+        /// Returns the node index of an already enumerated graph node that is a neighbor to the current node.
+        /// </summary>
         public int CurrentParent
         {
             get;

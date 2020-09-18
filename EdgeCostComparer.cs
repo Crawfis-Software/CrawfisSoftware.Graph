@@ -88,10 +88,10 @@ namespace CrawfisSoftware.Collections.Graph
         private void InitializeCosts()
         {
             // TODO Allow this to be lazily allocated and initialized.
-            _costs = new List<float>(_graph.NumberOfNodes);
+            _costs = new Dictionary<int,float>(_graph.NumberOfNodes);
 
-            for (int i = 0; i < _graph.NumberOfNodes; i++)
-                _costs.Add(float.MaxValue);
+            foreach (int node in _graph.Nodes)
+                _costs[node] = float.MaxValue;
             _costs[_startNode] = 0.0f;
         }
         /// <summary>
@@ -120,7 +120,7 @@ namespace CrawfisSoftware.Collections.Graph
         private IIndexedGraph<N, E> _graph;
         private int _startNode;
         private EdgeCostDelegate<E> _edgeCostDelegate;
-        private IList<float> _costs;
+        private IDictionary<int,float> _costs;
         #endregion
     }
 }

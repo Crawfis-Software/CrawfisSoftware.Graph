@@ -65,14 +65,10 @@ namespace CrawfisSoftware.Collections.Graph
         /// </summary>
         protected void Reset()
         {
-            if (visited == null)
+            visited = new Dictionary<int, bool>(indexedGraph.NumberOfNodes);
+            foreach (int node in indexedGraph.Nodes)
             {
-                visited = new bool[indexedGraph.NumberOfNodes];
-            }
-            else
-            {
-                for (int i = 0; i < indexedGraph.NumberOfNodes; i++)
-                    visited[i] = false;
+                visited[node] = false;
             }
 
             activeList.Clear();
@@ -113,7 +109,7 @@ namespace CrawfisSoftware.Collections.Graph
         #region Member variables
         private IIndexedGraph<N, E> indexedGraph;
         private IPriorityCollection<IIndexedEdge<E>> activeList;
-        private bool[] visited;
+        private IDictionary<int, bool> visited;
         #endregion
     }
 }

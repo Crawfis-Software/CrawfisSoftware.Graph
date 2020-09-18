@@ -202,7 +202,12 @@ namespace CrawfisSoftware.Collections.Graph
 
             IndexedGraphEnumerator<N, E> graphWalker = new IndexedGraphEnumerator<N, E>(graphTranspose);
 
-            bool[] visited = new bool[graph.NumberOfNodes];
+            int count = graph.NumberOfNodes;
+            Dictionary<int,bool> visited = new Dictionary<int, bool>(count);
+            foreach(int node in graph.Nodes)
+            {
+                visited[node] = false;
+            }
             IList<IList<int>> components = new List<IList<int>>();
             IList<int> currentComponent;
             foreach (int rootNode in postOrder)

@@ -31,7 +31,11 @@ namespace CrawfisSoftware.Collections.Graph
             // values are false, and they are changed to true once all of the node's children 
             // have been processed, since we requested a post-order traveral of the graph.
             //
-            bool[] postOrder = new bool[graph.NumberOfNodes];
+            Dictionary<int, bool> postOrder = new Dictionary<int, bool>(graph.NumberOfNodes);
+            foreach (int node in graph.Nodes)
+            {
+                postOrder[node] = false;
+            }
             foreach (int node in graphWalker.TraverseNodes())
             {
                 postOrder[node] = true;
@@ -63,7 +67,11 @@ namespace CrawfisSoftware.Collections.Graph
             bool acyclic = true;
             IndexedGraphEnumerator<N, E> graphWalker = new IndexedGraphEnumerator<N, E>(graph);
             graphWalker.TraversalOrder = TraversalOrder.PreOrder;
-            bool[] visited = new bool[graph.NumberOfNodes];
+            Dictionary<int, bool> visited = new Dictionary<int, bool>(graph.NumberOfNodes);
+            foreach (int node in graph.Nodes)
+            {
+                visited[node] = false;
+            }
             foreach (int node in graphWalker.TraverseNodes())
             {
                 visited[node] = true;

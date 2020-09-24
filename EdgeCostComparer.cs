@@ -38,6 +38,11 @@ namespace CrawfisSoftware.Collections.Graph
         }
         #endregion
 
+        /// <inheritdoc/>
+        public float PathCost(int targetNode)
+        {
+            return _costs[targetNode];
+        }
         /// <summary>
         /// Get or set the <typeparamref name="EdgeCostDelegate{E}"/> function used to
         /// calculate the edge cost.

@@ -11,6 +11,13 @@ namespace CrawfisSoftware.Collections.Graph
     public interface IIndexedEdgeCostComparer<E> : IComparer<IIndexedEdge<E>>
     {
         /// <summary>
+        /// Get the cost of the path from the source to the target node.
+        /// </summary>
+        /// <param name="targetNode">Index into a node.</param>
+        /// <returns>The calculated cost of the minimum path.</returns>
+        float PathCost(int targetNode);
+
+        /// <summary>
         /// As edges are added to a minimum (or maximum) path search using the IComparer derived
         /// from by a concrete implementation of this interface, the method allows the
         /// control to signal the comparer that it should update its cost logic to

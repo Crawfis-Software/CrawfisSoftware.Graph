@@ -22,11 +22,22 @@ namespace CrawfisSoftware.Collections.Graph
         public SourceShortestPaths(IIndexedGraph<N, E> graph, int startingNode, EdgeCostDelegate<E> costDelegate)
         {
             this.startingNode = startingNode;
-            EdgeCostComparer<N, E> costComparer = new EdgeCostComparer<N, E>(graph, startingNode);
+            costComparer = new EdgeCostComparer<N, E>(graph, startingNode);
             if (costDelegate != null)
                 costComparer.EdgeCostDelegate = costDelegate;
             FindPaths(graph, costComparer);
         }
+
+        /// <summary>
+        /// Return the minimum path cost to the target node.
+        /// </summary>
+        /// <param name="targetNode">An index into a graph node.</param>
+        /// <returns>The cost of the minimum path to the target node.</returns>
+        public float GetCost(int targetNode)
+        {
+            return costComparer.PathCost(targetNode);
+        }
+
         /// <summary>
         /// Actual method that returns an enumeration of the path edges.
         /// </summary>
@@ -84,5 +95,6 @@ namespace CrawfisSoftware.Collections.Graph
 
         private int startingNode;
         IDictionary<int, IIndexedEdge<E>> parentList = new Dictionary<int, IIndexedEdge<E>>();
+        EdgeCostComparer<N, E> costComparer;
     }
 }

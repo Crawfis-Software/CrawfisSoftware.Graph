@@ -87,7 +87,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// <param name="fromNode">The node that the edge emanates from.</param>
         /// <param name="toNode">The node that the edge terminates at.</param>
         /// <returns>True if the edge exists in the graph. False otherwise.</returns>
-        public bool ContainsEdge(N fromNode, N toNode)
+        public bool ContainsEdge(in N fromNode, in N toNode)
         {
             return _graph.ContainsEdge(fromNode, toNode);
         }
@@ -97,7 +97,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// <param name="fromNode">The node that the edge emanates from.</param>
         /// <param name="toNode">The node that the edge terminates at.</param>
         /// <returns>The edge.</returns>
-        public E GetEdgeLabel(N fromNode, N toNode)
+        public E GetEdgeLabel(in N fromNode, in N toNode)
         {
             return _graph.GetEdgeLabel(fromNode, toNode);
         }
@@ -109,7 +109,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// <param name="edge">The resulting edge if the method was successful. A default
         /// value for the type if the edge could not be found.</param>
         /// <returns>True if the edge was found. False otherwise.</returns>
-        public bool TryGetEdge(N fromNode, N toNode, out E edge)
+        public bool TryGetEdge(in N fromNode, in N toNode, out E edge)
         {
             return _graph.TryGetEdge(fromNode, toNode, out edge);
         }

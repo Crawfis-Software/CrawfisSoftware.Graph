@@ -57,6 +57,30 @@ namespace CrawfisSoftware.Collections.Graph
             Reset();
             return ResumeTraverseGraph(startingNode);
         }
+
+        /// <summary>
+        /// Traverse the <typeparamref name="IIndexedGraph{N,E}"/> 
+        /// until no more connected nodes exist. 
+        /// </summary>
+        /// <param name="startingNode">A list of node index to start the traversal from. The PriorityCollection determines how when these nodes are outptut.</param>
+        /// <returns>An <typeparamref name="IIndexedEdge{N,E"/> of 
+        /// node indices.</returns>
+        /// <remarks>This routine will only traverse those nodes reachable from 
+        /// the list of startingNodes.</remarks>
+        /// <remarks>Component numbers ahouls bw ignored when using this.</remarks>
+        public IEnumerable<IIndexedEdge<E>> TraverseNodes(IEnumerable<int> startingNodes)
+        {
+            Reset();
+            foreach (int node in startingNodes)
+            {
+                visited[node] = true;
+                foreach (IIndexedEdge<E> edge in indexedGraph.OutEdges(node))
+                {
+                    activeList.Put(edge);
+                }
+            }
+            return ResumeTraverseGraph(0, true);
+        }
         #endregion
 
         #region Implementation
@@ -79,12 +103,15 @@ namespace CrawfisSoftware.Collections.Graph
         /// <param name="startingNode">A new node to continue the search from.</param>
         /// <returns>An <typeparamref name="IEnumerable{T}"/> of 
         /// <typeparamref name="IIndexedEdge{N,E}"/>.</returns>
-        protected IEnumerable<IIndexedEdge<E>> ResumeTraverseGraph(int startingNode)
+        protected IEnumerable<IIndexedEdge<E>> ResumeTraverseGraph(int startingNode, bool listIsPreprimed = false)
         {
-            visited[startingNode] = true;
-            foreach (IIndexedEdge<E> edge in indexedGraph.OutEdges(startingNode))
+            if (!listIsPreprimed)
             {
-                activeList.Put(edge);
+                visited[startingNode] = true;
+                foreach (IIndexedEdge<E> edge in indexedGraph.OutEdges(startingNode))
+                {
+                    activeList.Put(edge);
+                }
             }
             while (activeList.Count > 0)
             {

@@ -7,7 +7,12 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <DocumentationFile>bin\Debug\Graph.XML</DocumentationFile>
+    <DocumentationFile>$(SolutionDir)Documentation\Graph.XML</DocumentationFile>
+    <OutputPath>$(SolutionDir)bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>$(SolutionDir)bin\Release\</OutputPath>
+    <DocumentationFile>$(SolutionDir)Documentation\CrawfisSoftware.Graph.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Collections\CrawfisSoftware.Collections.csproj" />

@@ -170,20 +170,25 @@ namespace CrawfisSoftware.Collections.Graph
 
             GraphEnumerator<N, E> graphWalker = new GraphEnumerator<N, E>(graphTranspose);
 
-            List<N> visited = new List<N>();
+            //List<N> visited = new List<N>();
+            Dictionary<N, bool> visited = new Dictionary<N, bool>();
+            foreach (N node in graph.Nodes)
+            {
+                visited[node] = false;
+            }
             IList<IList<N>> components = new List<IList<N>>();
             IList<N> currentComponent;
             foreach (N rootNode in postOrder)
             {
-                if (!visited.Contains(rootNode))
+                if (!visited[rootNode])
                 {
                     currentComponent = new List<N>();
                     components.Add(currentComponent);
                     foreach (N node in graphWalker.TraverseNodes(rootNode))
                     {
-                        if (!visited.Contains(node))
+                        if (!visited[node])
                         {
-                            visited.Add(node);
+                            visited[node] = true;
                             currentComponent.Add(node);
                         }
                     }

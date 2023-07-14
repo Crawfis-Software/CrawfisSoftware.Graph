@@ -18,7 +18,7 @@ namespace CrawfisSoftware.Collections.Graph
     /// <typeparam name="N">The type of the node labels in the corresponding graph.</typeparam>
     /// <typeparam name="E">The type of the edge labels in the corresponding graph.</typeparam>
     /// <seealso cref="GraphQuery{N,E}.FindPath(IIndexedGraph{N,E}, int, int, IIndexedEdgeCostComparer{E})"/>
-    public class EdgeCostComparer<N, E> : IIndexedEdgeCostComparer<E>
+    public class PathCostComparer<N, E> : IIndexedEdgeCostComparer<E>
     {
         #region Constructors
         /// <summary>
@@ -26,23 +26,39 @@ namespace CrawfisSoftware.Collections.Graph
         /// </summary>
         /// <param name="graph">The <typeparamref name="IIndexedGraph{N,E}"/> that will be 
         /// used in the path finding algorithms.</param>
-        /// <param name="startNode">A starting node in the path.</param>
-        public EdgeCostComparer(IIndexedGraph<N, E> graph, int startNode)
+        /// <param name="hueristicAcceleration">A coefficient to accelerate more towards the target using the hueristic.</param>
+        public PathCostComparer(IIndexedGraph<N, E> graph, float hueristicAcceleration = 1)
         {
             _graph = graph;
-            _startNode = startNode;
-
-            InitializeCosts();
-
+            _hueristicAcceleration = hueristicAcceleration;
             _edgeCostDelegate = new EdgeCostDelegate<E>(GetEdgeCost);
         }
         #endregion
 
+        /// <summary>Clear out any prior computations. Set the starting node and target node.</summary>
+        /// <param name="startNode">A starting node in the path.</param>
+        /// <param name="target">(Optional) A target node that can be used to accelerate the search using A*. The method TargetHueristic needs to be overridden for A*.</param>
+        public void Initialize(int startNode, int target = -1)
+        {
+            _targetNode = target;
+            InitializeCosts(startNode);
+        }
         /// <inheritdoc/>
         public float PathCost(int targetNode)
         {
             return _costs[targetNode];
         }
+
+        /// <summary>
+        /// Set the cost of a particular node. Used and needed when starting a new search.
+        /// </summary>
+        /// <param name="startNode"></param>
+        /// <param name="cost"></param>
+        public void SetCost(int startNode, float cost)
+        {
+            _costs[startNode] = cost;
+        }
+
         /// <summary>
         /// Get or set the <typeparamref name="EdgeCostDelegate{E}"/> function used to
         /// calculate the edge cost.
@@ -90,25 +106,16 @@ namespace CrawfisSoftware.Collections.Graph
         #endregion
 
         #region Implementation
-        private void InitializeCosts()
+        private void InitializeCosts(int startNode)
         {
             // TODO Allow this to be lazily allocated and initialized.
             _costs = new Dictionary<int,float>(_graph.NumberOfNodes);
 
             foreach (int node in _graph.Nodes)
                 _costs[node] = float.MaxValue;
-            _costs[_startNode] = 0.0f;
+            _costs[startNode] = 0.0f;
         }
-        /// <summary>
-        /// Returns the cost of the edge for this comparer.
-        /// Derived classes should override this method to provide their own updates.
-        /// </summary>
-        /// <param name="edge">The edge to get the cost from.</param>
-        /// <returns>A <c>float</c> as the edge cost.</returns>
-        protected float GetEdgeCost(IIndexedEdge<E> edge)
-        {
-            return 1.0f;
-        }
+
         /// <summary>
         /// Returns the cost of the path if this edge is added.
         /// Derived classes should override this method to provide their own updates.
@@ -117,15 +124,39 @@ namespace CrawfisSoftware.Collections.Graph
         /// <returns>A <c>float</c> as the path cost.</returns>
         protected float GetPathCost(IIndexedEdge<E> edge)
         {
-            return _costs[edge.From] + _edgeCostDelegate(edge);
+            return _costs[edge.From] + _edgeCostDelegate(edge) + _hueristicAcceleration * TargetHueristic(edge.To);
+        }
+
+        /// <summary>
+        /// Returns the cost of the edge for this comparer.
+        /// Derived classes should override this method to provide their own updates.
+        /// </summary>
+        /// <param name="edge">The edge to get the cost from.</param>
+        /// <returns>A <c>float</c> as the edge cost.</returns>
+        protected virtual float GetEdgeCost(IIndexedEdge<E> edge)
+        {
+            return 1.0f;
+        }
+
+        /// <summary>
+        /// Returns an estimated cost to reach a target cell.
+        /// </summary>
+        /// <param name="cellIndex">The current cell index.</param>
+        /// <returns>An estimated (and conservative) path cost from the current cell to the target cell.</returns>
+        /// <remarks>Override this method to enable A* search.</remarks>
+        /// <remarks>Default is a constant (0), which is not conservative, but results in Dijkstra's path search.</remarks>
+        protected virtual float TargetHueristic(int cellIndex)
+        {
+            return 0;
         }
         #endregion
 
         #region Member Variables
-        private IIndexedGraph<N, E> _graph;
-        private int _startNode;
-        private EdgeCostDelegate<E> _edgeCostDelegate;
-        private IDictionary<int,float> _costs;
+        protected IIndexedGraph<N, E> _graph;
+        protected float _hueristicAcceleration;
+        protected int _targetNode;
+        protected EdgeCostDelegate<E> _edgeCostDelegate;
+        protected IDictionary<int,float> _costs;
         #endregion
     }
 }

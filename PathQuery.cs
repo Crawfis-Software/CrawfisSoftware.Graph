@@ -56,7 +56,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// <returns>An enumeration of the path from the starting node to the target node.</returns>
         public static IEnumerable<IIndexedEdge<E>> FindPath(IIndexedGraph<N, E> graph, int start, int target)
         {
-            return FindPath(graph, start, target, new EdgeCostComparer<N, E>(graph, start));
+            return FindPath(graph, start, target, new PathCostComparer<N, E>(graph));
         }
         /// <summary>
         /// FindPath provides the index-based edges from the start node to the target node if a path is found.
@@ -72,7 +72,7 @@ namespace CrawfisSoftware.Collections.Graph
         public static IEnumerable<IIndexedEdge<E>> FindPath(IIndexedGraph<N, E> graph, int start, int target,
             EdgeCostDelegate<E> costDelegate)
         {
-            EdgeCostComparer<N, E> costComparer = new EdgeCostComparer<N, E>(graph, start);
+            PathCostComparer<N, E> costComparer = new PathCostComparer<N, E>(graph);
             if (costDelegate != null)
                 costComparer.EdgeCostDelegate = costDelegate;
 
@@ -90,11 +90,11 @@ namespace CrawfisSoftware.Collections.Graph
         /// <returns>An enumeration of the path from the starting node to the target node.</returns>
         /// <seealso cref="IIndexedEdgeCostComparer{E}"/>
         public static IEnumerable<IIndexedEdge<E>> FindPath(IIndexedGraph<N, E> graph, int start, int target,
-            IIndexedEdgeCostComparer<E> costDelegate)
+            PathCostComparer<N, E> costDelegate)
         {
+            costDelegate.Initialize(start, target);
             HeapAdaptor<IIndexedEdge<E>> heap = new HeapAdaptor<IIndexedEdge<E>>();
             heap.ComparerToUse = costDelegate;
-
             IndexedGraphEdgeEnumerator<N, E> graphWalker = new IndexedGraphEdgeEnumerator<N, E>(graph, heap);
 
             IDictionary<int, IIndexedEdge<E>> parentList = new Dictionary<int, IIndexedEdge<E>>();

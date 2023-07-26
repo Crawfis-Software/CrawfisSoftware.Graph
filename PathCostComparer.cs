@@ -26,11 +26,11 @@ namespace CrawfisSoftware.Collections.Graph
         /// </summary>
         /// <param name="graph">The <typeparamref name="IIndexedGraph{N,E}"/> that will be 
         /// used in the path finding algorithms.</param>
-        /// <param name="hueristicAcceleration">A coefficient to accelerate more towards the target using the hueristic.</param>
-        public PathCostComparer(IIndexedGraph<N, E> graph, float hueristicAcceleration = 1)
+        /// <param name="heuristicAcceleration">A coefficient to accelerate more towards the target using the hueristic.</param>
+        public PathCostComparer(IIndexedGraph<N, E> graph, float heuristicAcceleration = 1)
         {
             _graph = graph;
-            _hueristicAcceleration = hueristicAcceleration;
+            _heuristicAcceleration = heuristicAcceleration;
             _edgeCostDelegate = new EdgeCostDelegate<E>(GetEdgeCost);
         }
         #endregion
@@ -124,7 +124,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// <returns>A <c>float</c> as the path cost.</returns>
         protected float GetPathCost(IIndexedEdge<E> edge)
         {
-            return _costs[edge.From] + _edgeCostDelegate(edge) + _hueristicAcceleration * TargetHueristic(edge.To);
+            return _costs[edge.From] + _edgeCostDelegate(edge) + _heuristicAcceleration * TargetHeuristic(edge.To);
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// <returns>An estimated (and conservative) path cost from the current cell to the target cell.</returns>
         /// <remarks>Override this method to enable A* search.</remarks>
         /// <remarks>Default is a constant (0), which is not conservative, but results in Dijkstra's path search.</remarks>
-        protected virtual float TargetHueristic(int cellIndex)
+        protected virtual float TargetHeuristic(int cellIndex)
         {
             return 0;
         }
@@ -153,7 +153,7 @@ namespace CrawfisSoftware.Collections.Graph
 
         #region Member Variables
         protected IIndexedGraph<N, E> _graph;
-        protected float _hueristicAcceleration;
+        protected float _heuristicAcceleration;
         protected int _targetNode;
         protected EdgeCostDelegate<E> _edgeCostDelegate;
         protected IDictionary<int,float> _costs;

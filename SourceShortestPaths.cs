@@ -23,6 +23,7 @@ namespace CrawfisSoftware.Collections.Graph
         {
             this.startingNode = startingNode;
             costComparer = new PathCostComparer<N, E>(graph, startingNode);
+            costComparer.Initialize(startingNode);
             if (costDelegate != null)
                 costComparer.EdgeCostDelegate = costDelegate;
             FindPaths(graph, costComparer);

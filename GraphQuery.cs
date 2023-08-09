@@ -29,7 +29,7 @@ namespace CrawfisSoftware.Collections.Graph
             //
             // postOrder will keep track of whether we have already visited a node. Initial 
             // values are false, and they are changed to true once all of the node's children 
-            // have been processed, since we requested a post-order traveral of the graph.
+            // have been processed, since we requested a post-order traversal of the graph.
             //
             Dictionary<int, bool> postOrder = new Dictionary<int, bool>(graph.NumberOfNodes);
             foreach (int node in graph.Nodes)
@@ -79,7 +79,7 @@ namespace CrawfisSoftware.Collections.Graph
                 // Check to see if there is at most one (usually one except for 
                 // and roots of the forest) neighbors who have already been
                 // visited. If yes, then a cycle exists. This represents the 
-                // presence of a backedge in addition to the "parent" edge.
+                // presence of a back-edge in addition to the "parent" edge.
                 //
                 int count = 0;
                 foreach (int neighbor in graph.Neighbors(node))
@@ -113,7 +113,7 @@ namespace CrawfisSoftware.Collections.Graph
             //
             // postOrder will keep track of each node we visit. It is added to the list
             // once all of its children have been processed, since we requested a post-order
-            // traveral of the graph.
+            // traversal of the graph.
             //
             List<N> postOrder = new List<N>();
             foreach (N node in graphWalker.TraverseNodes())

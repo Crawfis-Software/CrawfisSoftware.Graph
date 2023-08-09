@@ -115,12 +115,12 @@ namespace CrawfisSoftware.Collections.Graph
         /// Traverse the <typeparamref name="IGraph{N,E}"/> 
         /// until no more connected nodes exist. 
         /// </summary>
-        /// <param name="startingNode">A list of node index to start the traversal from. The PriorityCollection determines how when these nodes are outptut.</param>
+        /// <param name="startingNodes">A list of node index to start the traversal from. The PriorityCollection determines how when these nodes are output.</param>
         /// <returns>An <typeparamref name="IEnumerable{T}"/> of 
         /// node indices.</returns>
         /// <remarks>This routine will only traverse those nodes reachable from 
         /// the list of startingNodes.</remarks>
-        /// <remarks>Component numbers ahouls bw ignored when using this.</remarks>
+        /// <remarks>Component numbers should be ignored when using this.</remarks>
         public IEnumerable<int> TraverseNodes(IEnumerable<int> startingNodes)
         {
             Reset();
@@ -169,9 +169,9 @@ namespace CrawfisSoftware.Collections.Graph
                 yield return startingNode;
             }
         }
-        private IEnumerable<int> TraverseComponent(int startingNode, bool listIsPreprimed = false)
+        private IEnumerable<int> TraverseComponent(int startingNode, bool listIsPrePrimed = false)
         {
-            if(!listIsPreprimed)
+            if(!listIsPrePrimed)
                 activeList.Put(startingNode);
             while (activeList.Count > 0)
             {

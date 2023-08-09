@@ -13,7 +13,6 @@ namespace CrawfisSoftware.Collections.Graph
     {
         private IIndexedGraph<N, E> graph;
         private float[,] costMatrix;
-        private EdgeCostDelegate<E> costDelegate;
         /// <summary>
         /// Calculates the shortest paths for all reachable nodes in a graph
         /// from a specified initial starting node.

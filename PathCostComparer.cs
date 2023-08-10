@@ -26,7 +26,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// </summary>
         /// <param name="graph">The <typeparamref name="IIndexedGraph{N,E}"/> that will be 
         /// used in the path finding algorithms.</param>
-        /// <param name="heuristicAcceleration">A coefficient to accelerate more towards the target using the hueristic.</param>
+        /// <param name="heuristicAcceleration">A coefficient to accelerate more towards the target using the heuristic.</param>
         public PathCostComparer(IIndexedGraph<N, E> graph, float heuristicAcceleration = 1)
         {
             _graph = graph;
@@ -37,7 +37,7 @@ namespace CrawfisSoftware.Collections.Graph
 
         /// <summary>Clear out any prior computations. Set the starting node and target node.</summary>
         /// <param name="startNode">A starting node in the path.</param>
-        /// <param name="target">(Optional) A target node that can be used to accelerate the search using A*. The method TargetHueristic needs to be overridden for A*.</param>
+        /// <param name="target">(Optional) A target node that can be used to accelerate the search using A*. The method TargetHeuristic needs to be overridden for A*.</param>
         public void Initialize(int startNode, int target = -1)
         {
             _targetNode = target;
@@ -152,10 +152,25 @@ namespace CrawfisSoftware.Collections.Graph
         #endregion
 
         #region Member Variables
+        /// <summary>
+        /// The graph.
+        /// </summary>
         protected IIndexedGraph<N, E> _graph;
+        /// <summary>
+        /// A value to speed up the A* search.
+        /// </summary>
         protected float _heuristicAcceleration;
+        /// <summary>
+        /// The target node.
+        /// </summary>
         protected int _targetNode;
+        /// <summary>
+        /// The function to call to get an edge cost.
+        /// </summary>
         protected EdgeCostDelegate<E> _edgeCostDelegate;
+        /// <summary>
+        /// A dictionary of edge indices to path costs.
+        /// </summary>
         protected IDictionary<int,float> _costs;
         #endregion
     }

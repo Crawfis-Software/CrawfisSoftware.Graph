@@ -62,12 +62,12 @@ namespace CrawfisSoftware.Collections.Graph
         /// Traverse the <typeparamref name="IIndexedGraph{N,E}"/> 
         /// until no more connected nodes exist. 
         /// </summary>
-        /// <param name="startingNode">A list of node index to start the traversal from. The PriorityCollection determines how when these nodes are outptut.</param>
+        /// <param name="startingNodes">A list of node index to start the traversal from. The PriorityCollection determines how when these nodes are output.</param>
         /// <returns>An <typeparamref name="IIndexedEdge{N,E"/> of 
         /// node indices.</returns>
         /// <remarks>This routine will only traverse those nodes reachable from 
         /// the list of startingNodes.</remarks>
-        /// <remarks>Component numbers ahouls bw ignored when using this.</remarks>
+        /// <remarks>Component numbers should be ignored when using this.</remarks>
         public IEnumerable<IIndexedEdge<E>> TraverseNodes(IEnumerable<int> startingNodes)
         {
             Reset();
@@ -101,11 +101,12 @@ namespace CrawfisSoftware.Collections.Graph
         /// Traverses any untouched graph nodes that are accessible from the specified node.
         /// </summary>
         /// <param name="startingNode">A new node to continue the search from.</param>
+        /// <param name="listIsPrePrimed">True is the activeList is already initialized with a set of starting nodes and the neighbors.</param>
         /// <returns>An <typeparamref name="IEnumerable{T}"/> of 
         /// <typeparamref name="IIndexedEdge{N,E}"/>.</returns>
-        protected IEnumerable<IIndexedEdge<E>> ResumeTraverseGraph(int startingNode, bool listIsPreprimed = false)
+        protected IEnumerable<IIndexedEdge<E>> ResumeTraverseGraph(int startingNode, bool listIsPrePrimed = false)
         {
-            if (!listIsPreprimed)
+            if (!listIsPrePrimed)
             {
                 visited[startingNode] = true;
                 foreach (IIndexedEdge<E> edge in indexedGraph.OutEdges(startingNode))

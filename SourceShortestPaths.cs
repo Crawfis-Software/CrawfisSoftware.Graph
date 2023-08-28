@@ -87,7 +87,7 @@ namespace CrawfisSoftware.Collections.Graph
 
             IndexedGraphEdgeEnumerator<N, E> graphWalker = new IndexedGraphEdgeEnumerator<N, E>(graph, heap);
 
-            foreach (IIndexedEdge<E> edge in graphWalker.TraverseGraph(startingNode))
+            foreach (IIndexedEdge<E> edge in graphWalker.TraverseNodes(startingNode))
             {
                 parentList.Add(edge.To, edge);
                 costDelegate.UpdateCost(edge);

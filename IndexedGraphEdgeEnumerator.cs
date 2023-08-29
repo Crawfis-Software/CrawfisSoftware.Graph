@@ -138,14 +138,15 @@ namespace CrawfisSoftware.Collections.Graph
         /// until no more connected edges exist.
         /// </summary>
         /// <param name="startingNode">The node to start the traversal from.</param>
+        /// <param name="isUndirected">If true treats edges as bi-direction (undirected) adn will not traverse them twice for undirected graphs.</param>
         /// <returns>An <typeparamref name="IEnumerable{T}"/> of 
         /// <typeparamref name="IIndexedEdge{N,E}"/>.</returns>
         /// <remarks>This routine will only traverse those edges reachable from 
         /// the startingNode.</remarks>
-        public IEnumerable<IIndexedEdge<E>> TraverseEdges(int startingNode)
+        public IEnumerable<IIndexedEdge<E>> TraverseEdges(int startingNode, bool isUndirected = true)
         {
             ResetEdgeTraversal();
-            return ResumeTraverseEdges(startingNode);
+            return ResumeTraverseEdges(startingNode, isUndirected);
         }
         /// <summary>
         /// Restarts the traversal for edge traversals.

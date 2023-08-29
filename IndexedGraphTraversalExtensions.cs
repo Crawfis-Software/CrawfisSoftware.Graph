@@ -45,12 +45,13 @@ namespace CrawfisSoftware.Collections.Graph
         /// <typeparam name="E">The type used for edge weights</typeparam>
         /// <param name="graph">The graph to traverse.</param>
         /// <param name="startingIndex">The starting graph index.</param>
+        /// <param name="isUndirected">If true treats edges as bi-direction (undirected) adn will not traverse them twice for undirected graphs.</param>
         /// <returns>An enumerable of the edges used to reach each node.</returns>
         /// <remarks>This traversing all reachable node, not all reachable edges.</remarks>
-        public static IEnumerable<IIndexedEdge<E>> BreadthFirstTraversalEdges<N, E>(this IIndexedGraph<N, E> graph, int startingIndex)
+        public static IEnumerable<IIndexedEdge<E>> BreadthFirstTraversalEdges<N, E>(this IIndexedGraph<N, E> graph, int startingIndex, bool isUndirected = true)
         {
             var gridEnumerator = new IndexedGraphEdgeEnumerator<N, E>(graph, new QueueAdaptor<IIndexedEdge<E>>());
-            return gridEnumerator.TraverseEdges(startingIndex);
+            return gridEnumerator.TraverseEdges(startingIndex, isUndirected);
         }
         #endregion Breadth-first
         #region Depth-first
@@ -89,12 +90,13 @@ namespace CrawfisSoftware.Collections.Graph
         /// <typeparam name="E">The type used for edge weights</typeparam>
         /// <param name="graph">The graph to traverse.</param>
         /// <param name="startingIndex">The starting graph index.</param>
+        /// <param name="isUndirected">If true treats edges as bi-direction (undirected) adn will not traverse them twice for undirected graphs.</param>
         /// <returns>An enumerable of the edges used to reach each node.</returns>
         /// <remarks>This traversing all reachable node, not all reachable edges.</remarks>
-        public static IEnumerable<IIndexedEdge<E>> DepthFirstTraversalEdges<N, E>(this IIndexedGraph<N, E> graph, int startingIndex)
+        public static IEnumerable<IIndexedEdge<E>> DepthFirstTraversalEdges<N, E>(this IIndexedGraph<N, E> graph, int startingIndex, bool isUndirected = true)
         {
             var gridEnumerator = new IndexedGraphEdgeEnumerator<N, E>(graph, new StackAdaptor<IIndexedEdge<E>>());
-            return gridEnumerator.TraverseEdges(startingIndex);
+            return gridEnumerator.TraverseEdges(startingIndex, isUndirected);
         }
         #endregion Depth-first
 
@@ -164,9 +166,10 @@ namespace CrawfisSoftware.Collections.Graph
         /// <param name="graph">The graph to traverse.</param>
         /// <param name="startingIndex">The starting graph index.</param>
         /// <param name="costDelegate">Function to convert the Edge label to a float representing the cost of the edge.</param>
+        /// <param name="isUndirected">If true treats edges as bi-direction (undirected) adn will not traverse them twice for undirected graphs.</param>
         /// <returns>An enumerable of the edges used to reach each node.</returns>
         /// <remarks>This traverses all reachable edges.</remarks>
-        public static IEnumerable<(IIndexedEdge<E> edge, float fromPathCost, float toPathCost)> DijkstraTraversalEdges<N, E>(this IIndexedGraph<N, E> graph, int startingIndex, EdgeCostDelegate<E> costDelegate)
+        public static IEnumerable<(IIndexedEdge<E> edge, float fromPathCost, float toPathCost)> DijkstraTraversalEdges<N, E>(this IIndexedGraph<N, E> graph, int startingIndex, EdgeCostDelegate<E> costDelegate, bool isUndirected = true)
         {
             int start = startingIndex;
             PathCostComparer<N, E> costComparer = new PathCostComparer<N, E>(graph);
@@ -175,7 +178,7 @@ namespace CrawfisSoftware.Collections.Graph
             HeapAdaptor<IIndexedEdge<E>> heap = new HeapAdaptor<IIndexedEdge<E>>();
             heap.ComparerToUse = costComparer;
             var gridEnumerator = new IndexedGraphEdgeEnumerator<N, E>(graph, heap);
-            foreach (var edge in gridEnumerator.TraverseEdges(start))
+            foreach (var edge in gridEnumerator.TraverseEdges(start, isUndirected))
             {
                 costComparer.UpdateCost(edge);
                 float fromPathCost = costComparer.PathCost(edge.From);
@@ -190,11 +193,12 @@ namespace CrawfisSoftware.Collections.Graph
         /// <typeparam name="N">The type used for node labels</typeparam>
         /// <param name="graph">The graph to traverse.</param>
         /// <param name="startingIndex">The starting graph index.</param>
+        /// <param name="isUndirected">If true treats edges as bi-direction (undirected) adn will not traverse them twice for undirected graphs.</param>
         /// <returns>An enumerable of the edges used to reach each node..</returns>
         /// <remarks>This traversing all reachable node, not all reachable edges.</remarks>
-        public static IEnumerable<(IIndexedEdge<int>, float fromPathCost, float toPathCost)> DijkstraTraversalEdges<N>(this IIndexedGraph<N, int> graph, int startingIndex)
+        public static IEnumerable<(IIndexedEdge<int>, float fromPathCost, float toPathCost)> DijkstraTraversalEdges<N>(this IIndexedGraph<N, int> graph, int startingIndex, bool isUndirected = true)
         {
-            return DijkstraTraversalEdges(graph, startingIndex, (edge) => { return edge.Value; });
+            return DijkstraTraversalEdges(graph, startingIndex, (edge) => { return edge.Value; }, isUndirected);
         }
 
         /// <summary>
@@ -203,11 +207,12 @@ namespace CrawfisSoftware.Collections.Graph
         /// <typeparam name="N">The type used for node labels</typeparam>
         /// <param name="graph">The graph to traverse.</param>
         /// <param name="startingIndex">The starting graph index.</param>
+        /// <param name="isUndirected">If true treats edges as bi-direction (undirected) adn will not traverse them twice for undirected graphs.</param>
         /// <returns>An enumerable of the edges used to reach each node..</returns>
         /// <remarks>This traversing all reachable node, not all reachable edges.</remarks>
-        public static IEnumerable<(IIndexedEdge<long>, float fromPathCost, float toPathCost)> DijkstraTraversalEdges<N>(this IIndexedGraph<N, long> graph, int startingIndex)
+        public static IEnumerable<(IIndexedEdge<long>, float fromPathCost, float toPathCost)> DijkstraTraversalEdges<N>(this IIndexedGraph<N, long> graph, int startingIndex, bool isUndirected = true)
         {
-            return DijkstraTraversalEdges(graph, startingIndex, (edge) => { return edge.Value; });
+            return DijkstraTraversalEdges(graph, startingIndex, (edge) => { return edge.Value; }, isUndirected);
         }
 
         /// <summary>
@@ -216,12 +221,13 @@ namespace CrawfisSoftware.Collections.Graph
         /// <typeparam name="N">The type used for node labels</typeparam>
         /// <param name="graph">The graph to traverse.</param>
         /// <param name="startingIndex">The starting graph index.</param>
+        /// <param name="isUndirected">If true treats edges as bi-direction (undirected) adn will not traverse them twice for undirected graphs.</param>
         /// <returns>An enumerable of the edges used to reach each node..</returns>
         /// <remarks>This traversing all reachable node, not all reachable edges.</remarks>
-        public static IEnumerable<(IIndexedEdge<bool>, float fromPathCost, float toPathCost)> DijkstraTraversalEdges<N>(this IIndexedGraph<N, bool> graph, int startingIndex)
+        public static IEnumerable<(IIndexedEdge<bool>, float fromPathCost, float toPathCost)> DijkstraTraversalEdges<N>(this IIndexedGraph<N, bool> graph, int startingIndex, bool isUndirected = true)
         {
             const float largeValue = 10000000f;
-            return DijkstraTraversalEdges(graph, startingIndex, (edge) => { return edge.Value ? 1f : largeValue; });
+            return DijkstraTraversalEdges(graph, startingIndex, (edge) => { return edge.Value ? 1f : largeValue; }, isUndirected);
         }
 
         /// <summary>
@@ -230,11 +236,12 @@ namespace CrawfisSoftware.Collections.Graph
         /// <typeparam name="N">The type used for node labels</typeparam>
         /// <param name="graph">The graph to traverse.</param>
         /// <param name="startingIndex">The starting graph index.</param>
+        /// <param name="isUndirected">If true treats edges as bi-direction (undirected) adn will not traverse them twice for undirected graphs.</param>
         /// <returns>An enumerable of the edges used to reach each node..</returns>
         /// <remarks>This traversing all reachable node, not all reachable edges.</remarks>
-        public static IEnumerable<(IIndexedEdge<float>, float fromPathCost, float toPathCost)> DijkstraTraversalEdges<N>(this IIndexedGraph<N, float> graph, int startingIndex)
+        public static IEnumerable<(IIndexedEdge<float>, float fromPathCost, float toPathCost)> DijkstraTraversalEdges<N>(this IIndexedGraph<N, float> graph, int startingIndex, bool isUndirected = true)
         {
-            return DijkstraTraversalEdges(graph, startingIndex, (edge) => { return edge.Value; });
+            return DijkstraTraversalEdges(graph, startingIndex, (edge) => { return edge.Value; }, isUndirected);
         }
 
         /// <summary>
@@ -243,11 +250,12 @@ namespace CrawfisSoftware.Collections.Graph
         /// <typeparam name="N">The type used for node labels</typeparam>
         /// <param name="graph">The graph to traverse.</param>
         /// <param name="startingIndex">The starting graph index.</param>
+        /// <param name="isUndirected">If true treats edges as bi-direction (undirected) adn will not traverse them twice for undirected graphs.</param>
         /// <returns>An enumerable of the edges used to reach each node..</returns>
         /// <remarks>This traversing all reachable node, not all reachable edges.</remarks>
-        public static IEnumerable<(IIndexedEdge<double>, float fromPathCost, float toPathCost)> DijkstraTraversalEdges<N>(this IIndexedGraph<N, double> graph, int startingIndex)
+        public static IEnumerable<(IIndexedEdge<double>, float fromPathCost, float toPathCost)> DijkstraTraversalEdges<N>(this IIndexedGraph<N, double> graph, int startingIndex, bool isUndirected = true)
         {
-            return DijkstraTraversalEdges(graph, startingIndex, (edge) => { return (float)edge.Value; });
+            return DijkstraTraversalEdges(graph, startingIndex, (edge) => { return (float)edge.Value; }, isUndirected);
         }
         #endregion Dijkstra
     }

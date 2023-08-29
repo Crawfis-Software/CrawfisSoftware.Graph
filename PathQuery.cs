@@ -99,7 +99,7 @@ namespace CrawfisSoftware.Collections.Graph
 
             IDictionary<int, IIndexedEdge<E>> parentList = new Dictionary<int, IIndexedEdge<E>>();
             bool pathFound = false;
-            foreach (IIndexedEdge<E> edge in graphWalker.TraverseGraph(start))
+            foreach (IIndexedEdge<E> edge in graphWalker.TraverseNodes(start))
             {
                 parentList.Add(edge.To, edge);
                 costDelegate.UpdateCost(edge);

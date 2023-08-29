@@ -45,16 +45,16 @@ namespace CrawfisSoftware.Collections.Graph
         #region Public Interface
         /// <summary>
         /// Traverse the <typeparamref name="IIndexedGraph{N,E}"/> starting from the specified node
-        /// until no more connected edges exist.
+        /// until no more connected nodes exist.
         /// </summary>
         /// <param name="startingNode">The node to start the traversal from.</param>
         /// <returns>An <typeparamref name="IEnumerable{T}"/> of 
         /// <typeparamref name="IIndexedEdge{N,E}"/>.</returns>
         /// <remarks>This routine will only traverse those nodes reachable from 
-        /// the startingNode.</remarks>
-        public IEnumerable<IIndexedEdge<E>> TraverseGraph(int startingNode)
+        /// the startingNode once. Not all edges are enumerated.</remarks>
+        public IEnumerable<IIndexedEdge<E>> TraverseNodes(int startingNode)
         {
-            Reset();
+            ResetNodeTraversal();
             return ResumeTraverseGraph(startingNode);
         }
 
@@ -70,10 +70,10 @@ namespace CrawfisSoftware.Collections.Graph
         /// <remarks>Component numbers should be ignored when using this.</remarks>
         public IEnumerable<IIndexedEdge<E>> TraverseNodes(IEnumerable<int> startingNodes)
         {
-            Reset();
+            ResetNodeTraversal();
             foreach (int node in startingNodes)
             {
-                visited[node] = true;
+                visitedNodes[node] = true;
                 foreach (IIndexedEdge<E> edge in indexedGraph.OutEdges(node))
                 {
                     activeList.Put(edge);
@@ -87,12 +87,12 @@ namespace CrawfisSoftware.Collections.Graph
         /// <summary>
         /// Restarts the traversal.
         /// </summary>
-        protected void Reset()
+        protected void ResetNodeTraversal()
         {
-            visited = new Dictionary<int, bool>(indexedGraph.NumberOfNodes);
+            visitedNodes = new Dictionary<int, bool>(indexedGraph.NumberOfNodes);
             foreach (int node in indexedGraph.Nodes)
             {
-                visited[node] = false;
+                visitedNodes[node] = false;
             }
 
             activeList.Clear();
@@ -108,7 +108,7 @@ namespace CrawfisSoftware.Collections.Graph
         {
             if (!listIsPrePrimed)
             {
-                visited[startingNode] = true;
+                visitedNodes[startingNode] = true;
                 foreach (IIndexedEdge<E> edge in indexedGraph.OutEdges(startingNode))
                 {
                     activeList.Put(edge);
@@ -117,14 +117,89 @@ namespace CrawfisSoftware.Collections.Graph
             while (activeList.Count > 0)
             {
                 IIndexedEdge<E> currentEdge = activeList.GetNext();
-                if (!visited[currentEdge.To])
+                if (!visitedNodes[currentEdge.To])
                 {
                     int currentNode = currentEdge.To;
                     yield return currentEdge;
-                    visited[currentNode] = true;
+                    visitedNodes[currentNode] = true;
                     foreach (IIndexedEdge<E> edge in indexedGraph.OutEdges(currentNode))
                     {
-                        if (!visited[edge.To])
+                        if (!visitedNodes[edge.To])
+                        {
+                            activeList.Put(edge);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Traverse the <typeparamref name="IIndexedGraph{N,E}"/> starting from the specified node
+        /// until no more connected edges exist.
+        /// </summary>
+        /// <param name="startingNode">The node to start the traversal from.</param>
+        /// <param name="isUndirected">If true treats edges as bi-direction (undirected) adn will not traverse them twice for undirected graphs.</param>
+        /// <returns>An <typeparamref name="IEnumerable{T}"/> of 
+        /// <typeparamref name="IIndexedEdge{N,E}"/>.</returns>
+        /// <remarks>This routine will only traverse those edges reachable from 
+        /// the startingNode.</remarks>
+        public IEnumerable<IIndexedEdge<E>> TraverseEdges(int startingNode, bool isUndirected = true)
+        {
+            ResetEdgeTraversal();
+            return ResumeTraverseEdges(startingNode, isUndirected);
+        }
+        /// <summary>
+        /// Restarts the traversal for edge traversals.
+        /// </summary>
+        protected void ResetEdgeTraversal()
+        {
+            visitedEdges = new Dictionary<(int,int), bool>(indexedGraph.NumberOfEdges);
+            activeList.Clear();
+        }
+        /// <summary>
+        /// Traverses any untouched graph edges that are accessible from the specified node.
+        /// </summary>
+        /// <param name="startingNode">A new node to continue the search from.</param>
+        /// <param name="isUndirected">If true treats edges as bi-direction (undirected) adn will not traverse them twice for undirected graphs.</param>
+        /// <param name="listIsPrePrimed">True is the activeList is already initialized with a set of starting nodes and the neighbors.</param>
+        /// <returns>An <typeparamref name="IEnumerable{T}"/> of 
+        /// <typeparamref name="IIndexedEdge{N,E}"/>.</returns>
+        protected IEnumerable<IIndexedEdge<E>> ResumeTraverseEdges(int startingNode, bool isUndirected = true, bool listIsPrePrimed = false)
+        {
+            if (!listIsPrePrimed)
+            {
+                foreach (IIndexedEdge<E> edge in indexedGraph.OutEdges(startingNode))
+                {
+                    activeList.Put(edge);
+                }
+            }
+            while (activeList.Count > 0)
+            {
+                IIndexedEdge<E> currentEdge = activeList.GetNext();
+                int from = currentEdge.From;
+                int to = currentEdge.To;
+                if (isUndirected && from > to)
+                {
+                    int temp = from;
+                    from = to;
+                    to = temp;
+                }
+
+                if (!visitedEdges.ContainsKey((from,to)))
+                {
+                    yield return currentEdge;
+                    visitedEdges[(from,to)] = true;
+                    foreach (IIndexedEdge<E> edge in indexedGraph.OutEdges(currentEdge.To))
+                    {
+                        from = edge.From;
+                        to = edge.To;
+                        if (isUndirected && from > to)
+                        {
+                            int temp = from;
+                            from = to;
+                            to = temp;
+                        }
+                        if (!visitedEdges.ContainsKey((from,to)))
                         {
                             activeList.Put(edge);
                         }
@@ -137,7 +212,8 @@ namespace CrawfisSoftware.Collections.Graph
         #region Member variables
         private IIndexedGraph<N, E> indexedGraph;
         private IPriorityCollection<IIndexedEdge<E>> activeList;
-        private IDictionary<int, bool> visited;
+        private IDictionary<int, bool> visitedNodes;
+        private IDictionary<(int,int), bool> visitedEdges;
         #endregion
     }
 }

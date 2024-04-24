@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace CrawfisSoftware.Collections.Graph
 {
+    /// <summary>
+    /// Static class to find Eulerian Circuits.
+    /// </summary>
     public static class EulerianCircuit
     {
         /// <summary>

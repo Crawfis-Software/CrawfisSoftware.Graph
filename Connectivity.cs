@@ -166,7 +166,7 @@ namespace CrawfisSoftware.Collections.Graph
         }
         private static IList<IList<N>> StrongComponents(IGraph<N, E> graph, IGraph<N, E> graphTranspose, int MaxNodes)
         {
-            IEnumerable<N> postOrder = GraphQuery<N, E>.GetTopologicalSort(graph, MaxNodes);
+            IEnumerable<N> postOrder = GraphQuery.GetTopologicalSort(graph, MaxNodes);
 
             GraphEnumerator<N, E> graphWalker = new GraphEnumerator<N, E>(graphTranspose);
 
@@ -203,13 +203,13 @@ namespace CrawfisSoftware.Collections.Graph
         }
         private static IList<IList<int>> StrongComponents(IIndexedGraph<N, E> graph, IIndexedGraph<N, E> graphTranspose, int MaxNodes)
         {
-            IEnumerable<int> postOrder = GraphQuery<N, E>.GetTopologicalSort(graph, MaxNodes);
+            IEnumerable<int> postOrder = GraphQuery.GetTopologicalSort(graph, MaxNodes);
 
             IndexedGraphEnumerator<N, E> graphWalker = new IndexedGraphEnumerator<N, E>(graphTranspose);
 
             int count = graph.NumberOfNodes;
-            Dictionary<int,bool> visited = new Dictionary<int, bool>(count);
-            foreach(int node in graph.Nodes)
+            Dictionary<int, bool> visited = new Dictionary<int, bool>(count);
+            foreach (int node in graph.Nodes)
             {
                 visited[node] = false;
             }

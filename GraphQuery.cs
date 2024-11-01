@@ -9,7 +9,7 @@ namespace CrawfisSoftware.Collections.Graph
     /// </summary>
     /// <typeparam name="N">The type of the node labels in the corresponding graph.</typeparam>
     /// <typeparam name="E">The type of the edge labels in the corresponding graph.</typeparam>
-    public static class GraphQuery<N, E>
+    public static class GraphQuery
     {
         #region Acyclic test
         /// <summary>
@@ -21,7 +21,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// the nodes in the graph. If a node has an out-going edge to another node that has not
         /// already been enumerated, then a cycle exists and the routine returns false.
         /// Note that the routine will return early if a cycle is found.</remarks>
-        public static bool IsAcyclic(IIndexedGraph<N, E> graph)
+        public static bool IsAcyclic<N, E>(this IIndexedGraph<N, E> graph)
         {
             bool acyclic = true;
             IndexedGraphEnumerator<N, E> graphWalker = new IndexedGraphEnumerator<N, E>(graph);
@@ -62,7 +62,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// <param name="graph">An index-based graph that the test will be performed on.</param>
         /// <returns>True if there are no cycles (the graph is acyclic). False otherwise.</returns>
         /// <remarks>Note that the routine will return early if a cycle is found.</remarks>
-        public static bool IsAcyclicUndirected(IIndexedGraph<N, E> graph)
+        public static bool IsAcyclicUndirected<N, E>(this IIndexedGraph<N, E> graph)
         {
             bool acyclic = true;
             IndexedGraphEnumerator<N, E> graphWalker = new IndexedGraphEnumerator<N, E>(graph);
@@ -105,7 +105,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// the nodes in the graph. If a node has an out-going edge to another node that has not
         /// already been enumerated, then a cycle exists and the routine returns false.
         /// <para>Note that the routine will return early if a cycle is found,</para></remarks>
-        public static bool IsAcyclic(IGraph<N, E> graph)
+        public static bool IsAcyclic<N, E>(this IGraph<N, E> graph)
         {
             bool acyclic = true;
             GraphEnumerator<N, E> graphWalker = new GraphEnumerator<N, E>(graph);
@@ -143,7 +143,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// </summary>
         /// <param name="graph">The graph to enumerate.</param>
         /// <returns>An enumeration of the graph nodes.</returns>
-        public static IEnumerable<N> GetTopologicalSort(IGraph<N, E> graph)
+        public static IEnumerable<N> GetTopologicalSort<N, E>(this IGraph<N, E> graph)
         {
             return GetTopologicalSort(graph, System.Int32.MaxValue);
         }
@@ -161,7 +161,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// maximum number of nodes to enumerate is exceeded. Since a graph can be infinite in
         /// size, this guards against passing an infinite graph (e.g., set of all whole numbers)
         /// into the routine.</exception>
-        public static IEnumerable<N> GetTopologicalSort(IGraph<N, E> graph, int MaxNodes)
+        public static IEnumerable<N> GetTopologicalSort<N, E>(this IGraph<N, E> graph, int MaxNodes)
         {
             int count = 0;
             GraphEnumerator<N, E> graphWalker = new GraphEnumerator<N, E>(graph);
@@ -183,7 +183,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// </summary>
         /// <param name="graph">The graph to enumerate.</param>
         /// <returns>An enumeration of the graph nodes.</returns>
-        public static IEnumerable<int> GetTopologicalSort(IIndexedGraph<N, E> graph)
+        public static IEnumerable<int> GetTopologicalSort<N, E>(this IIndexedGraph<N, E> graph)
         {
             return GetTopologicalSort(graph, System.Int32.MaxValue);
         }
@@ -201,7 +201,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// maximum number of nodes to enumerate is exceeded. Since a graph can be infinite in
         /// size, this guards against passing an infinite graph (e.g., set of all whole numbers)
         /// into the routine.</exception>
-        public static IEnumerable<int> GetTopologicalSort(IIndexedGraph<N, E> graph, int MaxNodes)
+        public static IEnumerable<int> GetTopologicalSort<N, E>(this IIndexedGraph<N, E> graph, int MaxNodes)
         {
             int count = 0;
             IndexedGraphEnumerator<N, E> graphWalker = new IndexedGraphEnumerator<N, E>(graph);
@@ -224,7 +224,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// </summary>
         /// <param name="graph">The graph to query against.</param>
         /// <returns>The number of nodes in the graph.</returns>
-        public static int NumberOfNodes(IGraph<N, E> graph)
+        public static int NumberOfNodes<N, E>(this IGraph<N, E> graph)
         {
             return NumberOfNodes(graph, System.Int32.MaxValue);
         }
@@ -241,7 +241,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// maximum number of nodes to enumerate is exceeded. Since a graph can be infinite in
         /// size, this guards against passing an infinite graph (e.g., set of all whole numbers)
         /// into the routine.</exception>
-        public static int NumberOfNodes(IGraph<N, E> graph, int MaxNodes)
+        public static int NumberOfNodes<N, E>(this IGraph<N, E> graph, int MaxNodes)
         {
             IFiniteGraph<N, E> diagram = graph as IFiniteGraph<N, E>;
             if (diagram != null)
@@ -262,7 +262,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// </summary>
         /// <param name="graph">The graph to query against.</param>
         /// <returns>The number of edges in the graph.</returns>
-        public static int NumberOfEdges(IGraph<N, E> graph)
+        public static int NumberOfEdges<N, E>(this IGraph<N, E> graph)
         {
             return NumberOfEdges(graph, System.Int32.MaxValue);
         }
@@ -279,7 +279,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// maximum number of edges to enumerate is exceeded. Since a graph can be infinite in
         /// size, this guards against passing an infinite graph (e.g., set of all whole numbers)
         /// into the routine.</exception>
-        public static int NumberOfEdges(IGraph<N, E> graph, int MaxEdges)
+        public static int NumberOfEdges<N, E>(this IGraph<N, E> graph, int MaxEdges)
         {
             IFiniteGraph<N, E> diagram = graph as IFiniteGraph<N, E>;
             if (diagram != null)

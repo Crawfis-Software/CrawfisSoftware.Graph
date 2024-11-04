@@ -17,7 +17,7 @@ namespace CrawfisSoftware.Collections.Graph
         GraphSortWrapper(IGraph<N, E> graph)
         {
             _graph = graph;
-            _topologicalSort = GraphQuery<N, E>.GetTopologicalSort(graph);
+            _topologicalSort = graph.GetTopologicalSort();
         }
 
         #region IGraph<N,E> Members

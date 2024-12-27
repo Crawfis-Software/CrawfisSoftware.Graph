@@ -7,8 +7,6 @@ namespace CrawfisSoftware.Collections.Graph
     /// Provides a scoped location to place static methods that take
     /// a graph as input and provide basic queries on it.
     /// </summary>
-    /// <typeparam name="N">The type of the node labels in the corresponding graph.</typeparam>
-    /// <typeparam name="E">The type of the edge labels in the corresponding graph.</typeparam>
     public static class GraphQuery
     {
         #region Acyclic test

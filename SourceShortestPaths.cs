@@ -40,7 +40,7 @@ namespace CrawfisSoftware.Collections.Graph
         }
 
         /// <summary>
-        /// Actual method that returns an enumeration of the path edges.
+        /// Returns an enumeration of the shortest path to the target node.
         /// </summary>
         /// <param name="targetNode"></param>
         /// <returns>An IEnumerable of IIndexedEdge's.</returns>

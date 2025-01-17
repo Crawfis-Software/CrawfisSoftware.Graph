@@ -109,7 +109,7 @@ namespace CrawfisSoftware.Collections.Graph
         private void InitializeCosts(int startNode)
         {
             // TODO Allow this to be lazily allocated and initialized.
-            _costs = new Dictionary<int,float>(_graph.NumberOfNodes);
+            _costs = new Dictionary<int, float>(_graph.NumberOfNodes);
 
             foreach (int node in _graph.Nodes)
                 _costs[node] = float.MaxValue;
@@ -124,7 +124,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// <returns>A <c>float</c> as the path cost.</returns>
         protected float GetPathCost(IIndexedEdge<E> edge)
         {
-            return _costs[edge.From] + _edgeCostDelegate(edge) + _heuristicAcceleration * TargetHeuristic(edge.To);
+            return _costs[edge.From] + _edgeCostDelegate(edge) + _heuristicAcceleration * TargetHeuristic(_targetNode);
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// <summary>
         /// A dictionary of edge indices to path costs.
         /// </summary>
-        protected IDictionary<int,float> _costs;
+        protected IDictionary<int, float> _costs;
         #endregion
     }
 }

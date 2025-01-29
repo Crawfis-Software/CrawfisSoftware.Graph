@@ -20,38 +20,38 @@ namespace CrawfisSoftware.Collections.Graph
         /// <returns>An enumerable of node indices.</returns>
         public static IEnumerable<int> BreadthFirstTraversalNodes<N, E>(this IIndexedGraph<N, E> graph, int startingIndex)
         {
-            var gridEnumerator = new IndexedGraphEnumerator<N, E>(graph, new QueueAdaptor<int>());
-            return gridEnumerator.TraverseNodes(startingIndex);
+            var graphEnumerator = new IndexedGraphEnumerator<N, E>(graph, new QueueAdaptor<int>());
+            return graphEnumerator.TraverseNodes(startingIndex);
         }
 
         /// <summary>
-        /// Breadth-first traversal all nodes in of a graph.
+        /// Breadth-first traversal of all nodes in of a graph, enumerating the edges that it explored.
         /// </summary>
         /// <typeparam name="N">The type used for node labels</typeparam>
         /// <typeparam name="E">The type used for edge weights</typeparam>
         /// <param name="graph">The graph to traverse.</param>
         /// <param name="startingIndex">The starting graph index.</param>
-        /// <returns>An enumerable of node and the edges used to reach them.</returns>
+        /// <returns>An <see cref="IEnumerable{T}"/> where T is a <see cref="IIndexedEdge{E}"/>.</returns>
         public static IEnumerable<IIndexedEdge<E>> BreadthFirstTraversalNodesWithEdges<N, E>(this IIndexedGraph<N, E> graph, int startingIndex)
         {
-            var gridEnumerator = new IndexedGraphEdgeEnumerator<N, E>(graph, new QueueAdaptor<IIndexedEdge<E>>());
-            return gridEnumerator.TraverseNodes(startingIndex);
+            var graphEnumerator = new IndexedGraphEdgeEnumerator<N, E>(graph, new QueueAdaptor<IIndexedEdge<E>>());
+            return graphEnumerator.TraverseNodes(startingIndex);
         }
 
         /// <summary>
-        /// Breadth-first traversal of a graph.
+        /// Breadth-first traversal of all edges graph.
         /// </summary>
         /// <typeparam name="N">The type used for node labels</typeparam>
         /// <typeparam name="E">The type used for edge weights</typeparam>
         /// <param name="graph">The graph to traverse.</param>
         /// <param name="startingIndex">The starting graph index.</param>
         /// <param name="isUndirected">If true treats edges as bi-direction (undirected) adn will not traverse them twice for undirected graphs.</param>
-        /// <returns>An enumerable of the edges used to reach each node.</returns>
+        /// <returns>An <see cref="IEnumerable{T}"/> where T is a <see cref="IIndexedEdge{E}"/>.</returns>
         /// <remarks>This traversing all reachable node, not all reachable edges.</remarks>
         public static IEnumerable<IIndexedEdge<E>> BreadthFirstTraversalEdges<N, E>(this IIndexedGraph<N, E> graph, int startingIndex, bool isUndirected = true)
         {
-            var gridEnumerator = new IndexedGraphEdgeEnumerator<N, E>(graph, new QueueAdaptor<IIndexedEdge<E>>());
-            return gridEnumerator.TraverseEdges(startingIndex, isUndirected);
+            var graphEnumerator = new IndexedGraphEdgeEnumerator<N, E>(graph, new QueueAdaptor<IIndexedEdge<E>>());
+            return graphEnumerator.TraverseEdges(startingIndex, isUndirected);
         }
         #endregion Breadth-first
         #region Depth-first
@@ -65,8 +65,8 @@ namespace CrawfisSoftware.Collections.Graph
         /// <returns>An enumerable of node indices.</returns>
         public static IEnumerable<int> DepthFirstTraversalNodes<N, E>(this IIndexedGraph<N, E> graph, int startingIndex)
         {
-            var gridEnumerator = new IndexedGraphEnumerator<N, E>(graph, new StackAdaptor<int>());
-            return gridEnumerator.TraverseNodes(startingIndex);
+            var graphEnumerator = new IndexedGraphEnumerator<N, E>(graph, new StackAdaptor<int>());
+            return graphEnumerator.TraverseNodes(startingIndex);
         }
 
         /// <summary>
@@ -76,11 +76,11 @@ namespace CrawfisSoftware.Collections.Graph
         /// <typeparam name="E">The type used for edge weights</typeparam>
         /// <param name="graph">The graph to traverse.</param>
         /// <param name="startingIndex">The starting graph index.</param>
-        /// <returns>An enumerable of node and the edges used to reach them.</returns>
+        /// <returns>An enumerable of nodes and the edges used to reach them.</returns>
         public static IEnumerable<IIndexedEdge<E>> DepthFirstTraversalNodesWithEdges<N, E>(this IIndexedGraph<N, E> graph, int startingIndex)
         {
-            var gridEnumerator = new IndexedGraphEdgeEnumerator<N, E>(graph, new StackAdaptor<IIndexedEdge<E>>());
-            return gridEnumerator.TraverseNodes(startingIndex);
+            var graphEnumerator = new IndexedGraphEdgeEnumerator<N, E>(graph, new StackAdaptor<IIndexedEdge<E>>());
+            return graphEnumerator.TraverseNodes(startingIndex);
         }
 
         /// <summary>
@@ -95,8 +95,8 @@ namespace CrawfisSoftware.Collections.Graph
         /// <remarks>This traversing all reachable node, not all reachable edges.</remarks>
         public static IEnumerable<IIndexedEdge<E>> DepthFirstTraversalEdges<N, E>(this IIndexedGraph<N, E> graph, int startingIndex, bool isUndirected = true)
         {
-            var gridEnumerator = new IndexedGraphEdgeEnumerator<N, E>(graph, new StackAdaptor<IIndexedEdge<E>>());
-            return gridEnumerator.TraverseEdges(startingIndex, isUndirected);
+            var graphEnumerator = new IndexedGraphEdgeEnumerator<N, E>(graph, new StackAdaptor<IIndexedEdge<E>>());
+            return graphEnumerator.TraverseEdges(startingIndex, isUndirected);
         }
         #endregion Depth-first
 
@@ -136,8 +136,8 @@ namespace CrawfisSoftware.Collections.Graph
             costComparer.Initialize(start);
             HeapAdaptor<IIndexedEdge<E>> heap = new HeapAdaptor<IIndexedEdge<E>>();
             heap.ComparerToUse = costComparer;
-            var gridEnumerator = new IndexedGraphEdgeEnumerator<N, E>(graph, heap);
-            foreach (var edge in gridEnumerator.TraverseNodes(start))
+            var graphEnumerator = new IndexedGraphEdgeEnumerator<N, E>(graph, heap);
+            foreach (var edge in graphEnumerator.TraverseNodes(start))
             {
                 costComparer.UpdateCost(edge);
                 float fromPathCost = costComparer.PathCost(edge.From);
@@ -177,8 +177,8 @@ namespace CrawfisSoftware.Collections.Graph
             costComparer.Initialize(start);
             HeapAdaptor<IIndexedEdge<E>> heap = new HeapAdaptor<IIndexedEdge<E>>();
             heap.ComparerToUse = costComparer;
-            var gridEnumerator = new IndexedGraphEdgeEnumerator<N, E>(graph, heap);
-            foreach (var edge in gridEnumerator.TraverseEdges(start, isUndirected))
+            var graphEnumerator = new IndexedGraphEdgeEnumerator<N, E>(graph, heap);
+            foreach (var edge in graphEnumerator.TraverseEdges(start, isUndirected))
             {
                 costComparer.UpdateCost(edge);
                 float fromPathCost = costComparer.PathCost(edge.From);

@@ -48,8 +48,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// until no more connected nodes exist.
         /// </summary>
         /// <param name="startingNode">The node to start the traversal from.</param>
-        /// <returns>An <typeparamref name="IEnumerable{T}"/> of 
-        /// <typeparamref name="IIndexedEdge{N,E}"/>.</returns>
+        /// <returns>An <see cref="IEnumerable{T}"/> where T is a <see cref="IIndexedEdge{E}"/>.</returns>
         /// <remarks>This routine will only traverse those nodes reachable from 
         /// the startingNode once. Not all edges are enumerated.</remarks>
         public IEnumerable<IIndexedEdge<E>> TraverseNodes(int startingNode)
@@ -63,8 +62,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// until no more connected nodes exist. 
         /// </summary>
         /// <param name="startingNodes">A list of node index to start the traversal from. The PriorityCollection determines how when these nodes are output.</param>
-        /// <returns>An <typeparamref name="IIndexedEdge{N,E"/> of 
-        /// node indices.</returns>
+        /// <returns>An <see cref="IEnumerable{T}"/> where T is a <see cref="IIndexedEdge{E}"/>.</returns>
         /// <remarks>This routine will only traverse those nodes reachable from 
         /// the list of startingNodes.</remarks>
         /// <remarks>Component numbers should be ignored when using this.</remarks>
@@ -102,8 +100,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// </summary>
         /// <param name="startingNode">A new node to continue the search from.</param>
         /// <param name="listIsPrePrimed">True is the activeList is already initialized with a set of starting nodes and the neighbors.</param>
-        /// <returns>An <typeparamref name="IEnumerable{T}"/> of 
-        /// <typeparamref name="IIndexedEdge{N,E}"/>.</returns>
+        /// <returns>An <see cref="IEnumerable{T}"/> where T is a <see cref="IIndexedEdge{E}"/>.</returns>
         protected IEnumerable<IIndexedEdge<E>> ResumeTraverseGraph(int startingNode, bool listIsPrePrimed = false)
         {
             if (!listIsPrePrimed)
@@ -139,8 +136,7 @@ namespace CrawfisSoftware.Collections.Graph
         /// </summary>
         /// <param name="startingNode">The node to start the traversal from.</param>
         /// <param name="isUndirected">If true treats edges as bi-direction (undirected) adn will not traverse them twice for undirected graphs.</param>
-        /// <returns>An <typeparamref name="IEnumerable{T}"/> of 
-        /// <typeparamref name="IIndexedEdge{N,E}"/>.</returns>
+        /// <returns>An <see cref="IEnumerable{T}"/> where T is a <see cref="IIndexedEdge{E}"/>.</returns>
         /// <remarks>This routine will only traverse those edges reachable from 
         /// the startingNode.</remarks>
         public IEnumerable<IIndexedEdge<E>> TraverseEdges(int startingNode, bool isUndirected = true)
@@ -153,17 +149,17 @@ namespace CrawfisSoftware.Collections.Graph
         /// </summary>
         protected void ResetEdgeTraversal()
         {
-            visitedEdges = new Dictionary<(int,int), bool>(indexedGraph.NumberOfEdges);
+            visitedEdges = new Dictionary<(int, int), bool>(indexedGraph.NumberOfEdges);
             activeList.Clear();
         }
         /// <summary>
         /// Traverses any untouched graph edges that are accessible from the specified node.
         /// </summary>
         /// <param name="startingNode">A new node to continue the search from.</param>
-        /// <param name="isUndirected">If true treats edges as bi-direction (undirected) adn will not traverse them twice for undirected graphs.</param>
-        /// <param name="listIsPrePrimed">True is the activeList is already initialized with a set of starting nodes and the neighbors.</param>
-        /// <returns>An <typeparamref name="IEnumerable{T}"/> of 
-        /// <typeparamref name="IIndexedEdge{N,E}"/>.</returns>
+        /// <param name="isUndirected">If true treats edges as bi-direction (undirected) and will not traverse them twice for undirected graphs.</param>
+        /// <param name="listIsPrePrimed">True if the activeList is already initialized with a set of starting nodes and the neighbors.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> where T is a <see cref="IIndexedEdge{E}"/>.</returns>
+
         protected IEnumerable<IIndexedEdge<E>> ResumeTraverseEdges(int startingNode, bool isUndirected = true, bool listIsPrePrimed = false)
         {
             if (!listIsPrePrimed)
@@ -185,10 +181,10 @@ namespace CrawfisSoftware.Collections.Graph
                     to = temp;
                 }
 
-                if (!visitedEdges.ContainsKey((from,to)))
+                if (!visitedEdges.ContainsKey((from, to)))
                 {
                     yield return currentEdge;
-                    visitedEdges[(from,to)] = true;
+                    visitedEdges[(from, to)] = true;
                     foreach (IIndexedEdge<E> edge in indexedGraph.OutEdges(currentEdge.To))
                     {
                         from = edge.From;
@@ -199,7 +195,7 @@ namespace CrawfisSoftware.Collections.Graph
                             from = to;
                             to = temp;
                         }
-                        if (!visitedEdges.ContainsKey((from,to)))
+                        if (!visitedEdges.ContainsKey((from, to)))
                         {
                             activeList.Put(edge);
                         }
@@ -213,7 +209,7 @@ namespace CrawfisSoftware.Collections.Graph
         private IIndexedGraph<N, E> indexedGraph;
         private IPriorityCollection<IIndexedEdge<E>> activeList;
         private IDictionary<int, bool> visitedNodes;
-        private IDictionary<(int,int), bool> visitedEdges;
+        private IDictionary<(int, int), bool> visitedEdges;
         #endregion
     }
 }

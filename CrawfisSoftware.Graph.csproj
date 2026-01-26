@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -25,4 +26,20 @@
     <PackageReference Include="CrawfisSoftware.Collections" Version="0.1.*" />
     <PackageReference Include="CrawfisSoftware.IGraph" Version="0.1.*" />
   </ItemGroup>
+  <PropertyGroup>
+    <PackageId>CrawfisSoftware.Graph</PackageId>
+    <Authors>Crawfis SOftware</Authors>
+    <Description>Graph algorithms for traversal, searching and component analysis</Description>
+    <RepositoryUrl>https://github.com/Crawfis-Software/CrawfisSoftware.Graph</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/Crawfis-Software/CrawfisSoftware.Graph</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>Please see CHANGELOG.md for release details.</PackageReleaseNotes>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
 </Project>
